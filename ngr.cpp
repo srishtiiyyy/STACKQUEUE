@@ -1,10 +1,13 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 /*
     ❓ Question: Next Greater Element
     Given an array arr[] of size N, for each element arr[i], 
     find the next greater element (NGE). 
     The Next Greater Element for an element x is the first greater element 
     on the right side of x in the array.
-    If no such element exists, print -1.
+    If no such element exists, return -1 for that position.
 
     Example:
     Input:  arr = [4, 5, 2, 25]
@@ -17,36 +20,53 @@
     - For 25, there is no greater element → -1.
 */
 
-class Solution {
-public:
-    vector<int> nextLargerElement(vector<int> arr) {
-        int n = arr.size();
-        stack<int> st;        // stack to store potential next greater elements
-        vector<int> ans(n);   // answer array
+// Function to compute Next Greater Element for each index
+vector<int> nextLargerElement(vector<int>& arr) {
+    int n = arr.size();
+    stack<int> st;        // stack to keep possible "next greater elements"
+    vector<int> ans(n);   // result array to store answers
 
-        // Traverse from right to left because we are looking for "next greater"
-        for (int i = n - 1; i >= 0; i--) {
-            int currele = arr[i];
+    // Traverse array from right to left
+    for (int i = n - 1; i >= 0; i--) {
+        int currele = arr[i];
 
-            // Pop all elements from stack that are <= current element
-            // Because they can't be the next greater element for arr[i]
-            while (!st.empty() && st.top() <= currele) {
-                st.pop();
-            }
-
-            // If stack becomes empty, it means no greater element exists on the right
-            if (st.empty()) {
-                ans[i] = -1;
-            } 
-            else {
-                // Top of stack is the next greater element
-                ans[i] = st.top();
-            }
-
-            // Push current element onto stack so it can be a candidate for future elements
-            st.push(currele);
+        // Remove all smaller or equal elements from stack 
+        // (they can't be the next greater for arr[i])
+        while (!st.empty() && st.top() <= currele) {
+            st.pop();
         }
 
-        return ans;
+        // If stack is empty, no greater element exists to the right
+        if (st.empty()) {
+            ans[i] = -1;
+        } 
+        else {
+            // Otherwise, top of stack is the next greater element
+            ans[i] = st.top();
+        }
+
+        // Push current element into stack for future comparisons
+        st.push(currele);
     }
-};
+
+    return ans;
+}
+
+int main() {
+    int n;
+    cout << "Enter size of array: ";
+    cin >> n;
+
+    vector<int> arr(n);
+    cout << "Enter elements: ";
+    for (int i = 0; i < n; i++) cin >> arr[i];
+
+    // Call the function directly (no object)
+    vector<int> result = nextLargerElement(arr);
+
+    cout << "Next Greater Elements: ";
+    for (int x : result) cout << x << " ";
+    cout << endl;
+
+    return 0;
+}
