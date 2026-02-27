@@ -2,6 +2,7 @@
     Problem: Stock Span Problem
     Difficulty: Medium
     Topics: Stack, Array
+    Google , meta , amazon, linkedin , intuit , visa , IBM ,TCS  , JP  morgan 
 
     Description:
     The stock span problem is to calculate the span of stock’s price 
